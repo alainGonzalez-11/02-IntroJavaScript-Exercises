@@ -14,7 +14,10 @@ function menudeEjercicios() {
     evaluaDiasSemana();
   } else if (respuesta == "8") {
     evaluaCalificaciones();
-  } else {
+  } else if (respuesta == "9") {
+    compraHelado();
+  }
+  else {
     alert("Perdón, no entendí tu respuesta");
     menudeEjercicios();
   }
@@ -174,5 +177,39 @@ function evaluaCalificaciones() {
   } else {
     alert("Valor no válido");
     evaluaCalificaciones();
+  }
+}
+
+// TAREA 9
+/* 9. Escribe un programa que responda a un usuario que quiere comprar un helado en una conocida marca de comida rápida cuánto le costará en función del topping que elija.
+El helado sin topping cuesta 50 MXN.
+El topping de oreo cuesta 10 MXN.
+El topping de KitKat cuesta 15 MXN.
+El topping de brownie cuesta 20 MXN.
+En caso de no disponer del topping solicitado por el usuario, el programa le indicará “no tenemos este topping, lo sentimos.” y a continuación le informará el precio del helado sin ningún topping.*/
+
+function compraHelado() {
+  let topping = prompt(
+    "Bienvenido a Dairy Queen, ¿Qué topping quieres? Tenemos oreo, KitKat, Brownie o helado sencillo"
+  );
+  switch (topping.toLowerCase()) {
+    case "sencillo":
+    case "sin topping":
+    case "simple":
+    case "helado sencillo":
+      alert("Son 50 MXN de tu helado sencillo");
+      break;
+    case "oreo":
+      alert("Son 60 MXN de tu helado con Oreo");
+      break;
+    case "kitkat":
+      alert("Son 65 MXN de tu helado con KitKat");
+      break;
+    case "browie":
+      alert("Son 70 MXN de tu helado con Brownie");
+      break;
+    default:
+      alert("No tenemos este topping, lo sentimos. Son 50 MXN de tu helado sencillo.");
+      evaluaCalificaciones();
   }
 }
