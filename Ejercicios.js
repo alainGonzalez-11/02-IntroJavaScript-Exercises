@@ -12,6 +12,8 @@ function menudeEjercicios() {
     comparaTresNumeros();
   } else if (respuesta == "7") {
     evaluaDiasSemana();
+  } else if (respuesta == "8") {
+    evaluaCalificaciones();
   } else {
     alert("Perdón, no entendí tu respuesta");
     menudeEjercicios();
@@ -129,14 +131,48 @@ function evaluaDiasSemana() {
     case "domingo":
       alert("Disfruta tu fin de semana");
       break;
-      case "martes":
-      case "miercoles":
-        case "miércoles":
-      case "jueves":
-        alert("Otro día, otro dolar");
-        break;
+    case "martes":
+    case "miercoles":
+    case "miércoles":
+    case "jueves":
+      alert("Otro día, otro dolar");
+      break;
     default:
       alert("No ingresaste un día de la semana");
       break;
+  }
+}
+
+// TAREA 8
+// 8. Solicitar al usuario una calificación (entre 1 y 10). Luego se debe comprobar que el número efectivamente esté en ese rango, si no lo está imprima un mensaje de error. Si lo está, imprima “reprobado” si la calificación es inferior a 6, “regular” si está entre 6 y 8, “bien” si es 9, y por último, “excelente” si es 10.
+function evaluaCalificaciones() {
+  let calificacion = prompt("Ingresa tu calificación");
+  if (/^\d+$/.test(calificacion)) {
+    switch (parseInt(calificacion)) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+        alert("Reprobado");
+        break;
+      case 6:
+      case 7:
+      case 8:
+        alert("Regular");
+        break;
+      case 9:
+        alert("Bien");
+        break;
+      case 10:
+        alert("Excelente");
+        break;
+      default:
+        alert("El número está fuera de rango");
+        evaluaCalificaciones();
+    }
+  } else {
+    alert("Valor no válido");
+    evaluaCalificaciones();
   }
 }
