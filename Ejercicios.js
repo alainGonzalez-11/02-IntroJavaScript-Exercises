@@ -8,7 +8,10 @@ function menudeEjercicios() {
     premio();
   } else if (respuesta == "5") {
     comparaNumeros();
-  } else {
+  } else if (respuesta == "6") {
+    comparaTresNumeros();
+  }
+  else {
     alert("Perdón, no entendí tu respuesta");
     menudeEjercicios();
   }
@@ -87,3 +90,27 @@ function comparaNumeros() {
     }
   }
 }
+
+// TAREA 6
+// 6. Solicitar al usuario que ingrese tres números y mostrar cuál de los tres es el número mayor. Considerar el caso en que 2 números sean iguales.
+
+function comparaTresNumeros() {
+    let numero1 = prompt("Ingresa un número");
+    let numero2 = prompt("Ingresa otro número");
+    let numero3 = prompt("Ingresa un tercer número");
+    if (isNaN(numero1) || isNaN(numero2)|| isNaN(numero3)) {
+      alert("Parece que no ingresaste un número");
+      comparaNumeros();
+    } else {
+        if (numero1 >= numero2 && numero1 >= numero3){
+            alert(numero1 + 'es el número mas grande que ingresaste');
+        }
+        else if (numero2 >= numero1 && numero2 >= numero3){
+            alert(numero2 + 'es el número mas grande que ingresaste');
+        }
+        else {
+            alert(numero3 + 'es el número mas grande que ingresaste');
+        }
+    }
+  }
+  
