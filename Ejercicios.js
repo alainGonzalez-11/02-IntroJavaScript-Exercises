@@ -18,6 +18,8 @@ function menudeEjercicios() {
     compraHelado();
   } else if (respuesta == "10") {
     getCoursePrice();
+  } else if (respuesta == "11") {
+    calcularTransporte();
   } else {
     alert("Perdón, no entendí tu respuesta");
     menudeEjercicios();
@@ -299,5 +301,53 @@ function getCoursePrice() {
         " MXN \nEl costo total del programa es de " +
         parseFloat(tiempo * costoMensual).toFixed(2)
     );
+  }
+}
+// TAREA 11
+/*
+11. Realizar un programa que ayude a calcular el total a pagar de acuerdo a la distancia recorrida por un vehículo con cargo extra por los litros consumidos, tomando en consideración lo siguiente:
+Si el vehículo es “coche”, el precio kilometro ha de ser 0.20, si es “moto” ha de ser 0.10 y si es “autobús” 0.5.
+Si los litros consumidos están entre 0 y 100 se ha de añadir 5 al costo total, si es mayor la cantidad de litros consumidos se ha de añadir 10 al total. Considere qué:
+total a pagar = (precio kilometro x kms recorridos) + extra por litros consumidos.
+Entregables
+*/
+
+function calcularTransporte() {
+  vehiculo = prompt("Indica que vehículo prefierees (Coche, Moto o Autobús)");
+  distancia = prompt("¿Cuál es la distancia en kilómetros?");
+  tarifa = 0;
+  switch (vehiculo.toLowerCase()) {
+    case "coche":
+    case "carro":
+    case "auto":
+      tarifa = 0.2;
+      break;
+    case "moto":
+    case "motocicleta":
+      tarifa = 0.1;
+      break;
+    case "autobus":
+    case "autobús":
+    case "bus":
+      tarifa = 0.5;
+      break;
+    default:
+      alert("Vehiculo no disponible");
+      calcularTransporte();
+  }
+  if (distancia > 0 && distancia < 100) {
+    alert(
+      "El total a pagar es de $" +
+        parseFloat(distancia * tarifa + 5).toFixed(2) +
+        " MXN"
+    );
+  } else if (distancia > 100) {
+    alert(
+      "El total a pagar es de $" +
+        parseFloat(distancia * tarifa).toFixed(2) +
+        " MXN"
+    );
+  } else {
+    alert("La distancia no puede ser negativa");
   }
 }
