@@ -10,8 +10,9 @@ function menudeEjercicios() {
     comparaNumeros();
   } else if (respuesta == "6") {
     comparaTresNumeros();
-  }
-  else {
+  } else if (respuesta == "7") {
+    evaluaDiasSemana();
+  } else {
     alert("Perdón, no entendí tu respuesta");
     menudeEjercicios();
   }
@@ -95,22 +96,47 @@ function comparaNumeros() {
 // 6. Solicitar al usuario que ingrese tres números y mostrar cuál de los tres es el número mayor. Considerar el caso en que 2 números sean iguales.
 
 function comparaTresNumeros() {
-    let numero1 = prompt("Ingresa un número");
-    let numero2 = prompt("Ingresa otro número");
-    let numero3 = prompt("Ingresa un tercer número");
-    if (isNaN(numero1) || isNaN(numero2)|| isNaN(numero3)) {
-      alert("Parece que no ingresaste un número");
-      comparaNumeros();
+  let numero1 = prompt("Ingresa un número");
+  let numero2 = prompt("Ingresa otro número");
+  let numero3 = prompt("Ingresa un tercer número");
+  if (isNaN(numero1) || isNaN(numero2) || isNaN(numero3)) {
+    alert("Parece que no ingresaste un número");
+    comparaNumeros();
+  } else {
+    if (numero1 >= numero2 && numero1 >= numero3) {
+      alert(numero1 + "es el número mas grande que ingresaste");
+    } else if (numero2 >= numero1 && numero2 >= numero3) {
+      alert(numero2 + "es el número mas grande que ingresaste");
     } else {
-        if (numero1 >= numero2 && numero1 >= numero3){
-            alert(numero1 + 'es el número mas grande que ingresaste');
-        }
-        else if (numero2 >= numero1 && numero2 >= numero3){
-            alert(numero2 + 'es el número mas grande que ingresaste');
-        }
-        else {
-            alert(numero3 + 'es el número mas grande que ingresaste');
-        }
+      alert(numero3 + "es el número mas grande que ingresaste");
     }
   }
-  
+}
+
+// TAREA 7
+// 7. Requerir al usuario que ingrese un día de la semana e imprimir un mensaje si es lunes, otro mensaje diferente si es viernes, otro mensaje diferente si es sábado o domingo. Si el día ingresado no es ninguno de esos, imprimir otro mensaje.
+function evaluaDiasSemana() {
+  let dia = prompt("Ingresa un día de la semana");
+  switch (dia.toLowerCase()) {
+    case "lunes":
+      alert("Feliz inicio de semana");
+      break;
+    case "viernes":
+      alert("Ya se acabó la semana");
+      break;
+    case "sábado":
+    case "sabado":
+    case "domingo":
+      alert("Disfruta tu fin de semana");
+      break;
+      case "martes":
+      case "miercoles":
+        case "miércoles":
+      case "jueves":
+        alert("Otro día, otro dolar");
+        break;
+    default:
+      alert("No ingresaste un día de la semana");
+      break;
+  }
+}
