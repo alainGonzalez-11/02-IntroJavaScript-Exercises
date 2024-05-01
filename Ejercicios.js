@@ -6,11 +6,12 @@ function menudeEjercicios() {
     esPar();
   } else if (respuesta == "4") {
     premio();
+  } else if (respuesta == "5") {
+    comparaNumeros();
   } else {
     alert("Perdón, no entendí tu respuesta");
     menudeEjercicios();
   }
-  menudeEjercicios();
 }
 
 menudeEjercicios();
@@ -65,6 +66,24 @@ function premio() {
       alert("Ganaste un premio");
     } else {
       alert("Lo sentimos, sigue participando");
+    }
+  }
+}
+
+// TAREA 5
+// 5. Solicitar al usuario que ingrese dos números y mostrar cuál de los dos es menor. No considerar el caso en que ambos números son iguales.
+
+function comparaNumeros() {
+  let numero1 = prompt("Ingresa un número");
+  let numero2 = prompt("Ingresa otro número");
+  if (isNaN(numero1) || isNaN(numero2)) {
+    alert("Parece que no ingresaste un número");
+    comparaNumeros();
+  } else {
+    if (numero1 > numero2) {
+      alert(numero1 + " es mayor que " + numero2);
+    } else {
+      alert(numero1 + " es menor que " + numero2);
     }
   }
 }
