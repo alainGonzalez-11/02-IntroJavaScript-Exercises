@@ -16,8 +16,9 @@ function menudeEjercicios() {
     evaluaCalificaciones();
   } else if (respuesta == "9") {
     compraHelado();
-  }
-  else {
+  } else if (respuesta == "10") {
+    getCoursePrice();
+  } else {
     alert("Perdón, no entendí tu respuesta");
     menudeEjercicios();
   }
@@ -209,7 +210,94 @@ function compraHelado() {
       alert("Son 70 MXN de tu helado con Brownie");
       break;
     default:
-      alert("No tenemos este topping, lo sentimos. Son 50 MXN de tu helado sencillo.");
+      alert(
+        "No tenemos este topping, lo sentimos. Son 50 MXN de tu helado sencillo."
+      );
       evaluaCalificaciones();
+  }
+}
+
+// TAREA 10
+/*
+10. Un conocido portal de educación en tecnología está ofreciendo programas para aprender a desarrollar aplicaciones. Escribe un programa que le indique a la persona interesada cuánto deberá pagar mensualmente de acuerdo a la opción elegida.
+El programa educativo contempla 3 diferentes niveles, cada uno con su costo mensual: Course: $4999 MXN
+Carrera $3999 MXN
+Master: $2999 MXN
+Adicionalmente preguntar si cuenta con alguna beca y aplicar el descuento correspondiente al precio final.
+Beca Facebook: 20% de descuento.
+Beca Google: 15% de descuento.
+Beca Jesua: 50% de descuento.
+Finalmente, además del precio mensual con descuento, indicar al usuario cuánto gastaría en total por el curso elegido, tomando en cuenta las siguientes duraciones:
+Course: 2 meses
+Carrera 6 meses
+Master: 12 meses
+*/
+
+function getCoursePrice() {
+  let costoMensual = 0;
+  let descuento = 0;
+  let tiempo = 0;
+  let nombreCurso = "";
+  let tipo = prompt(
+    "¿Qué tipo de curso te interesa: Course, Carrera o Master?"
+  );
+  let beca = prompt("¿Tienes alguna beca (Facebook, Google o Jesua)?");
+  switch (tipo.toLowerCase()) {
+    case "course":
+      costoMensual = 4999;
+      tiempo = 2;
+      nombreCurso = "Course";
+      break;
+    case "carrera":
+      costoMensual = 3999;
+      tiempo = 6;
+      nombreCurso = "Carrera";
+      break;
+    case "master":
+      costoMensual = 2999;
+      tiempo = 12;
+      nombreCurso = "Master";
+      break;
+    default:
+      alert("Lo lamento, no contamos con ese curso. ");
+      getCoursePrice();
+  }
+  switch (beca.toLowerCase()) {
+    case "facebook":
+      descuento = 20;
+      break;
+    case "google":
+      descuento = 15;
+      break;
+    case "jesua":
+      descuento = 50;
+      break;
+    default:
+      alert("Lo lamento, tu beca no es válida.");
+  }
+  if (descuento > 0) {
+    alert(
+      "Felicidades, ya estás un paso más cerca \nTu " +
+        nombreCurso +
+        " tiene una duración de " +
+        tiempo +
+        " meses. \nEl costo mensual es de $" +
+        costoMensual +
+        " MXN y con tu beca solo pagas " +
+        parseFloat((costoMensual * (100 - descuento)) / 100).toFixed(2) +
+        " MXN \nEl costo total del programa es de " +
+        parseFloat((tiempo * costoMensual * (100 - descuento)) / 100).toFixed(2)
+    );
+  } else {
+    alert(
+      "Felicidades, ya estás un paso más cerca \nTu " +
+        nombreCurso +
+        " tiene una duración de " +
+        tiempo +
+        " meses. \nEl costo mensual es de $" +
+        costoMensual +
+        " MXN \nEl costo total del programa es de " +
+        parseFloat(tiempo * costoMensual).toFixed(2)
+    );
   }
 }
