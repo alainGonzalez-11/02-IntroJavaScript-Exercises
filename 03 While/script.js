@@ -1,11 +1,11 @@
 function menudeEjercicios() {
-  let respuesta = prompt("Indica que ejercicio quieres (1-3)");
+  let respuesta = prompt("Indica que ejercicio quieres (1-5)");
   if (respuesta == "1") {
     multiplosDeCinco();
   } else if (respuesta == "2") {
     loteria();
   } else if (respuesta == "3") {
-    alert("Función no soportada");
+    memoria();
   } else if (respuesta == "4") {
     alert("Función no soportada");
   } else if (respuesta == "5") {
@@ -32,6 +32,7 @@ function multiplosDeCinco() {
 
 // TAREA 2
 // 2. Crea un programa que solicite al usuario 2 números entre 1 y 50. Posteriormente mostrar en consola los números del 1 hasta el 50, pero añadir el mensaje “¡Lotería!” solo al mostrar los números indicados por el usuario.
+
 function loteria() {
   let respuesta = prompt(
     "Ingresa dos numeros separados por comas entre el 1 y el 50"
@@ -59,4 +60,23 @@ function loteria() {
     }
     index++;
   }
+}
+
+// TAREA 2
+// 3. Crea un programa que solicite al usuario números, si lo que este introduce es un número guardarlo en un arreglo. Para terminar el capturar el usuario debe ingresar el número 0. Finalmente mostrar la lista de números capturados en pantalla o en la consola.
+function memoria() {
+  let continuar = true;
+  let numberList = [];
+  while (continuar) {
+    let number = prompt("Ingresa un numero (ingresa 0 para terminar)");
+    if (isNaN(number)) {
+      alert("No ingresaste un numero");
+    } else {
+      numberList.push(number);
+      if (number == 0) {
+        continuar = false;
+      }
+    }
+  }
+  console.log(numberList);
 }
