@@ -3,8 +3,7 @@ function menudeEjercicios() {
   if (respuesta == "1") {
     randomGenerator(10);
   } else if (respuesta == "2") {
-    alert("Aún no soportado");
-    menudeEjercicios();
+    separador();
   } else if (respuesta == "3") {
     alert("Aún no soportado");
     menudeEjercicios();
@@ -16,6 +15,10 @@ function menudeEjercicios() {
 
 menudeEjercicios();
 
+
+// TAREA 1
+// 1. Crear un array vacío, luego generar 10 números al azar y guardarlos en un array. Mostrar en consola el resultado del array.
+
 function randomGenerator(numero) {
   let arreglo = [];
   for (let i = 0; i < numero; i++) {
@@ -24,3 +27,16 @@ function randomGenerator(numero) {
   console.log(arreglo);
   return null;
 }
+
+
+// TAREA 2
+// 2. El usuario deberá ingresar un string con varias palabras separadas por coma en un popup y se deben convertir en un array, (el usuario ingresa: '1,2,3,4,5' y se convierte en [1,2,3,4,5]). Mostrar en consola dicho resultado.
+function separador() {
+    let palabras = prompt("Ingresa palabras separadas por coma");
+    const arreglo = palabras.split(",");
+    console.log(arreglo);
+    return null;
+  }
+
+
+
