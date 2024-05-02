@@ -7,7 +7,7 @@ function menudeEjercicios() {
   } else if (respuesta == "3") {
     memoria();
   } else if (respuesta == "4") {
-    alert("Función no soportada");
+    memoria();
   } else if (respuesta == "5") {
     alert("Función no soportada");
   } else {
@@ -80,3 +80,23 @@ function memoria() {
   }
   console.log(numberList);
 }
+
+// TAREA 4
+// 4. Crea un programa que solicite al usuario letras o palabras, si es así guardar el resultado. Para terminar de capturar el usuario no debe escribir valor alguno. Al terminar de capturar, mostrar en pantalla la concatenación de todas las palabras capturadas.
+function memoria() {
+    let continuar = true;
+    let frase = '';
+    while (continuar) {
+      let palabra = prompt("Ingresa una palabra (Da clic en ok sin escribir nada para terminar)");
+      if (palabra !== '') {
+        frase += ' ' + palabra;
+    } else {
+        continuar = false;
+      }
+    }
+    console.log(frase);
+  }
+  
+
+  // TAREA 5
+  // 5. Crea un programa que solicite al usuario un día de la semana (ej: lunes, jueves, domingo, etc). El programa mostrará un mensaje personalizado para cada día de la semana por medio de un alert. Y seguirá pidiendo al usuario introducir otro día. En caso de que el día introducido sea domingo mostrar al usuario el mensaje “Ve a descansar” y terminar la captura de información.
