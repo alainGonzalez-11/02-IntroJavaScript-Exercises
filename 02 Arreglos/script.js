@@ -5,8 +5,7 @@ function menudeEjercicios() {
   } else if (respuesta == "2") {
     separador();
   } else if (respuesta == "3") {
-    alert("Aún no soportado");
-    menudeEjercicios();
+    analizaNumeros([10,40,30,20,15,5])
   } else {
     alert("Perdón, no entendí tu respuesta");
     menudeEjercicios();
@@ -39,4 +38,12 @@ function separador() {
   }
 
 
-
+// TAREA 3
+// 3. De acuerdo al array [10,40,30,20,15,5], imprime lo siguiente: El arreglo ordenado de menor a mayor, muestra el número menor y el número mayor. Tip: Busca en google los métodos de JavaScript que regresan el mayor y menor elemento de un arreglo.
+function analizaNumeros(arreglo) {
+    console.log(arreglo.sort(function(a, b){return a - b}));
+    console.log('El número más pequeño es ' + Math.min.apply(null, arreglo));
+    console.log('El número más grande es ' + Math.max.apply(null, arreglo));
+    
+    return null;
+  }
