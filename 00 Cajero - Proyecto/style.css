@@ -77,6 +77,12 @@ body {
   width: 90%;
 }
 
+.ScreenMenu {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 2fr 1fr 1fr 1fr 1fr;
+}
+
 #cash {
   grid-column: 1/2;
   grid-row: 2/3;
