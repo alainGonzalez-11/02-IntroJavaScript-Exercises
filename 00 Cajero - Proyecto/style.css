@@ -1,0 +1,177 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+body{
+    padding: 3%;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 5fr 1fr;
+    background-color: #9FA0A4;
+}
+
+#mainScreen {
+    grid-column: 1/2;
+    grid-row: 1/2;
+    background-color: #BEBEBE;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 6fr 1fr;
+    border: #818181 solid 2px;
+}
+
+#leftButtons {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: end;
+    background-color: #E6E6E6;
+    padding-bottom: 25px;
+    border: #818181 solid 2px;
+}
+#rightButtons {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: end;
+    background-color: #E6E6E6;
+    padding-bottom: 25px;
+    border: #818181 solid 2px;
+}
+
+.botonCajero {
+    margin: 5%;
+    margin-top: 15%;
+    width: 80%;
+}
+
+.botonCajero:hover {
+    cursor: pointer;
+}
+
+#Screen{
+    background: linear-gradient(to bottom, #F0F0F0, #A4A4A4); /* Red on top, blue on bottom */
+    border: #818181 solid 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#mainLogo{
+    width: 25%;
+    margin-bottom: 3em;
+}
+#mainMap{
+    width: 90%;
+}
+
+
+
+
+
+#cash {
+    grid-column: 1/2;
+    grid-row: 2/3;
+    background-color: #9A9A9A;
+    border: #818181 solid 2px;
+    align-items: center;
+    justify-content: center;
+}
+#cashWithdrawal {
+    width: 100%;
+}
+
+
+
+#controlPanel {
+    grid-column: 2/3;
+    grid-row: 1/3;
+    background-color: #9A9A9A;
+    border: #818181 solid 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#ATMLogo {
+    width: 25%;
+}
+
+#insertCard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5em;
+}
+
+#offset {
+    padding: 2em;
+    background: linear-gradient(#E6E6E6 0%, #646464 90%, #E6E6E6 100%);
+    backdrop-filter: blur(10px); /* Blur effect for the background */
+    border: #818181 solid 2px;
+
+}
+#keyboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    background-color: #E6E6E6;
+    border: #818181 solid 2px;
+    padding: 1em;
+    gap: 10px;
+}
+.keyButton {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    
+}
+.keyButton:hover {
+    
+    cursor: pointer;
+}
+.numberPadButton {
+    z-index: 1;
+    grid-column: 1;
+    grid-row: 1;
+
+}
+.buttonNumber {
+    z-index: 2;
+    grid-column: 1;
+    grid-row: 1;
+    text-align: center;
+    font-size: xx-large;
+    font-weight: 700;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: #474747;
+}
+#button0{
+    grid-column: 2;
+}
+.bottonName {
+    z-index: 2;
+    grid-column: 1;
+    grid-row: 1;
+    text-align: center;
+    font-size: x-large;
+    font-weight: 500;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: #E3E3E3;
+}
+#buttonCancel{
+    grid-row: 5;
+}
+#buttonCorrect{
+    grid-row: 5;
+}
+#buttonAccept{
+    grid-row: 5;
+}
