@@ -11,7 +11,6 @@ class Transaction {
     this.user = this.selectUser(users);
     this.status = "Start";
     this.inputText = "";
-    console.log(this.user);
     this.activateKeyboard();
     this.activateMenuButtons();
     this.setInitialScreen();
@@ -28,7 +27,6 @@ class Transaction {
     let userName = "juan";
     usuarios.forEach((usuario) => {
       if (usuario.getNombre().toLowerCase() == userName.toLowerCase()) {
-        console.log(usuario);
         user = usuario;
       }
     });
@@ -47,41 +45,63 @@ class Transaction {
   keyClick(pressedKey, key) {
     let image = key.children[0];
 
-    if (pressedKey < 9 && this.inputText.length < 4) {
-      // For digits 1 - 9
-      this.pushWhiteButton(image);
-      if (this.status == "Pin") {
+    if (this.status == "Pin") {
+      if (pressedKey < 9 && this.inputText.length < 4) {
+        // For digits 1 - 9
+        this.pushWhiteButton(image);
         this.inputText += pressedKey + 1;
         document.getElementById("password").value = this.inputText;
-      }
-    } else if (pressedKey == 9 && this.inputText.length < 4) {
-      // For digit 0
-      this.pushWhiteButton(image);
-      if (this.status == "Pin") {
+      } else if (pressedKey == 9 && this.inputText.length < 4) {
+        // For digit 0
+        this.pushWhiteButton(image);
         this.inputText += 0;
         document.getElementById("password").value = this.inputText;
-      }
-    } else if (pressedKey == 10) {
-      // For cancel button
-      this.pushRedButton(image);
-      if (this.status == "Pin") {
+      } else if (pressedKey == 10) {
+        // For cancel button
+        this.pushRedButton(image);
         this.inputText = "";
         document.getElementById("password").value = this.inputText;
-      }
-    } else if (pressedKey == 11) {
-      // For correct button
-      this.pushYellowButton(image);
-      if (this.status == "Pin") {
+      } else if (pressedKey == 11) {
+        // For correct button
+        this.pushYellowButton(image);
         this.inputText = this.inputText.slice(0, -1);
         document.getElementById("password").value = this.inputText;
-      }
-    } else if (pressedKey == 12) {
-      // For accept button
-      this.pushGreenButton(image);
-      if (this.status == "Pin") {
+      } else if (pressedKey == 12) {
+        // For accept button
+        this.pushGreenButton(image);
         this.validatePin();
       }
+    } else if (this.status == "WithdrawalMenu") {
+      if (pressedKey < 9) {
+        // For digits 1 - 9
+        this.pushWhiteButton(image);
+        this.inputText += pressedKey + 1;
+        document.getElementById("withdrawalAmmount").value = this.inputText;
+      } else if (pressedKey == 9) {
+        // For digit 0
+        this.pushWhiteButton(image);
+        this.inputText += 0;
+        document.getElementById("withdrawalAmmount").value = this.inputText;
+      } else if (pressedKey == 10) {
+        // For cancel button
+        this.pushRedButton(image);
+        this.inputText = "";
+        document.getElementById("withdrawalAmmount").value = this.inputText;
+      } else if (pressedKey == 11) {
+        // For correct button
+        this.pushYellowButton(image);
+        this.inputText = this.inputText.slice(0, -1);
+        document.getElementById("withdrawalAmmount").value = this.inputText;
+      } else if (pressedKey == 12) {
+        // For accept button
+        this.pushGreenButton(image);
+        this.withdrawCash();
+      }
     }
+  }
+
+  withdrawCash() {
+    console.log("withdrawCash");
   }
 
   activateMenuButtons() {
@@ -112,9 +132,9 @@ class Transaction {
         this.deposit();
       }
     } else if (this.status == "CheckBalance") {
-        if (pressedButton == 3) {
-            this.setMainMenu();
-        }
+      if (pressedButton == 3) {
+        this.setMainMenu();
+      }
     }
   }
 
@@ -128,14 +148,16 @@ class Transaction {
       } else if (pressedButton == 2) {
         this.exit();
       }
+    } else if (this.status == "CheckBalance") {
+      if (pressedButton == 3) {
+        this.setInitialScreen();
+      }
     }
   }
 
   checkBalance() {
     this.status = "CheckBalance";
     this.clearScreen();
-    console.log(this.user);
-    console.log(this.user.getBalance());
     let instruction = document.createElement("p");
     instruction.innerHTML = `Tu saldo es de $ ${this.user.getBalance()} MXN`;
     instruction.style.fontSize = "2em";
@@ -160,6 +182,31 @@ class Transaction {
     cancel.style.textAlign = "right";
     cancel.style.fontWeight = "bold";
     this.mainScreen.appendChild(cancel);
+  }
+
+  withdrawal() {
+    // ----------------------------------------------------------------
+
+    this.status = 'WithdrawalMenu';
+      this.clearScreen();
+      let instruction = document.createElement("p");
+      instruction.innerHTML = "Ingresa el monto a retirar";
+      instruction.style.fontSize = "2em";
+      instruction.style.fontWeight = "bold";
+      instruction.style.gridColumn = "2";
+      instruction.style.gridRow = "2";
+      instruction.style.textAlign="center";
+      this.mainScreen.appendChild(instruction);
+
+      let withdrawalAmmount = document.createElement("input");
+      withdrawalAmmount.type = "number";
+      withdrawalAmmount.id = "withdrawalAmmount";
+      withdrawalAmmount.style.fontWeight = "bold";
+      withdrawalAmmount.style.gridColumn = "2";
+      withdrawalAmmount.style.gridRow = "3";
+      this.mainScreen.appendChild(withdrawalAmmount);
+
+      this.inputText = '';
   }
 
   pushLeftButton(image) {
@@ -202,6 +249,18 @@ class Transaction {
   }
 
   setInitialScreen() {
+    this.status = "Start";
+    this.clearScreen();
+    let logo = document.createElement("img");
+    logo.setAttribute("src", "images/GNB.png");
+    logo.setAttribute("id", "mainLogo");
+    this.mainScreen.appendChild(logo);
+
+    let map = document.createElement("img");
+    map.setAttribute("src", "images/Map.png");
+    map.setAttribute("id", "mainMap");
+    this.mainScreen.appendChild(map);
+
     let message = document.createElement("p");
     message.innerHTML = "Ingresa tu tarjeta para iniciar";
     message.style.gridColumn = "1/4";
