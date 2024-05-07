@@ -78,14 +78,14 @@ body {
 }
 
 .ScreenMenu {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 2fr 1fr 1fr 1fr 1fr;
-    gap: 1em;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 2fr 1fr 1fr 1fr 1fr;
+  gap: 1em;
 }
-input{
-    font-size: x-large;
-    text-align: center;
+input {
+  font-size: x-large;
+  text-align: center;
 }
 
 #cash {
@@ -125,6 +125,7 @@ input{
   cursor: pointer;
 }
 .CardSlotOff {
+    cursor:initial;
 }
 
 #offset {

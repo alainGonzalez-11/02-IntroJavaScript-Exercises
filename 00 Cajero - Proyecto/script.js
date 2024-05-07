@@ -68,54 +68,70 @@ class Transaction {
         this.keyClick.bind(this, i, buttons[i])
       );
     }
-    if (this.status == "Pin") {
-    }
   }
-
   keyClick(pressedKey, key) {
     let image = key.children[0];
 
     if (pressedKey < 9 && this.inputText.length < 4) {
-      image.setAttribute("src", "images/whiteButtonPressed.svg");
-      this.inputText += pressedKey + 1;
-      document.getElementById("password").value = this.inputText;
-      setTimeout(() => {
-        console.log("red");
-        image.setAttribute("src", "images/whiteButton.svg");
-      }, 300);
+      // For digits 1 - 9
+      this.pushWhiteButton(image);
+      if (this.status == "Pin") {
+        this.inputText += pressedKey + 1;
+        document.getElementById("password").value = this.inputText;
+      }
     } else if (pressedKey == 9 && this.inputText.length < 4) {
-      image.setAttribute("src", "images/whiteButtonPressed.svg");
-      this.inputText += 0;
-      document.getElementById("password").value = this.inputText;
-      setTimeout(() => {
-        console.log("red");
-        image.setAttribute("src", "images/whiteButton.svg");
-      }, 300);
+      // For digit 0
+      this.pushWhiteButton(image);
+      if (this.status == "Pin") {
+        this.inputText += 0;
+        document.getElementById("password").value = this.inputText;
+      }
     } else if (pressedKey == 10) {
-      image.setAttribute("src", "images/redButtonPressed.svg");
+      // For cancel button
+      this.pushRedButton(image);
       this.inputText = "";
       document.getElementById("password").value = this.inputText;
-      setTimeout(() => {
-        console.log("red");
-        image.setAttribute("src", "images/redButton.svg");
-      }, 300);
     } else if (pressedKey == 11) {
-        image.setAttribute("src", "images/yellowButtonPressed.svg");
-        this.inputText = this.inputText.slice(0, -1);
-        document.getElementById("password").value = this.inputText;
-        setTimeout(() => {
-          console.log("red");
-          image.setAttribute("src", "images/yellowButton.svg");
-        }, 300);
-      }else if (pressedKey == 12) {
-        image.setAttribute("src", "images/greenButtonPressed.svg");
-        this.inputText = "magicDevelop";
-        document.getElementById("password").value = this.inputText;
-        setTimeout(() => {
-          console.log("red");
-          image.setAttribute("src", "images/greenButton.svg");
-        }, 300);
-      }
+      // For correct button
+      this.pushYellowButton(image);
+      this.inputText = this.inputText.slice(0, -1);
+      document.getElementById("password").value = this.inputText;
+    } else if (pressedKey == 12) {
+      // For accept button
+      this.pushGreenButton(image);
+      this.inputText = "magicDevelop";
+      document.getElementById("password").value = this.inputText;
+    }
+  }
+
+  pushWhiteButton(image) {
+    image.setAttribute("src", "images/whiteButtonPressed.svg");
+    setTimeout(() => {
+      console.log("red");
+      image.setAttribute("src", "images/whiteButton.svg");
+    }, 300);
+  }
+
+  pushRedButton(image) {
+    image.setAttribute("src", "images/redButtonPressed.svg");
+    setTimeout(() => {
+      console.log("red");
+      image.setAttribute("src", "images/redButton.svg");
+    }, 300);
+  }
+  pushYellowButton(image) {
+    image.setAttribute("src", "images/yellowButtonPressed.svg");
+    setTimeout(() => {
+      console.log("red");
+      image.setAttribute("src", "images/yellowButton.svg");
+    }, 300);
+  }
+  pushGreenButton(image) {
+    image.setAttribute("src", "images/greenButtonPressed.svg");
+    setTimeout(() => {
+      console.log("red");
+      image.setAttribute("src", "images/greenButton.svg");
+    }, 300);
   }
 
   setInitialScreen() {
