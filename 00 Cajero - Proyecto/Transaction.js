@@ -1,4 +1,11 @@
+/**
+ * Class representing an ATM transaction
+ */
 class Transaction {
+  /**
+   * Create a new transaction
+   * @param {Array} users - Array of Clientes objects
+   */
   constructor(users) {
     this.mainScreen = document.getElementById("Screen");
     this.user = this.selectUser(users);
@@ -96,32 +103,63 @@ class Transaction {
 
   menuClickLeft(pressedButton, button) {
     this.pushLeftButton(button);
-    if (this.status == 'LoggedIn') {
-        if (pressedButton == 0){
-            this.checkBalance();
-        } else if (pressedButton == 1){
-            this.withdrawal();
-        } else if (pressedButton == 2){
-            this.deposit();
+    if (this.status == "LoggedIn") {
+      if (pressedButton == 0) {
+        this.checkBalance();
+      } else if (pressedButton == 1) {
+        this.withdrawal();
+      } else if (pressedButton == 2) {
+        this.deposit();
+      }
+    } else if (this.status == "CheckBalance") {
+        if (pressedButton == 3) {
+            this.setMainMenu();
         }
     }
   }
 
   menuClickRight(pressedButton, button) {
     this.pushRightButton(button);
-    if (this.status == 'LoggedIn') {
-        if (pressedButton == 0){
-            this.transfer();
-        } else if (pressedButton == 1){
-            this.changePIN();
-        } else if (pressedButton == 2){
-            this.exit();
-        }
+    if (this.status == "LoggedIn") {
+      if (pressedButton == 0) {
+        this.transfer();
+      } else if (pressedButton == 1) {
+        this.changePIN();
+      } else if (pressedButton == 2) {
+        this.exit();
+      }
     }
   }
 
   checkBalance() {
+    this.status = "CheckBalance";
     this.clearScreen();
+    console.log(this.user);
+    console.log(this.user.getBalance());
+    let instruction = document.createElement("p");
+    instruction.innerHTML = `Tu saldo es de $ ${this.user.getBalance()} MXN`;
+    instruction.style.fontSize = "2em";
+    instruction.style.fontWeight = "bold";
+    instruction.style.gridColumn = "2";
+    instruction.style.gridRow = "2";
+    instruction.style.textAlign = "center";
+    this.mainScreen.appendChild(instruction);
+
+    let goBack = document.createElement("p");
+    goBack.innerHTML = `Regresar`;
+    goBack.style.gridColumn = "1";
+    goBack.style.gridRow = 5;
+    goBack.style.textAlign = "left";
+    goBack.style.fontWeight = "bold";
+    this.mainScreen.appendChild(goBack);
+
+    let cancel = document.createElement("p");
+    cancel.innerHTML = `Cancelar`;
+    cancel.style.gridColumn = "3";
+    cancel.style.gridRow = 5;
+    cancel.style.textAlign = "right";
+    cancel.style.fontWeight = "bold";
+    this.mainScreen.appendChild(cancel);
   }
 
   pushLeftButton(image) {
@@ -208,6 +246,8 @@ class Transaction {
     }
   }
   setMainMenu() {
+    this.status = "LoggedIn";
+    this.clearScreen();
     let instruction = document.createElement("p");
     instruction.innerHTML = "Selecciona una opción";
     instruction.style.fontSize = "2em";
@@ -247,8 +287,6 @@ class Transaction {
 
   validatePin() {
     if (this.inputText == this.user.nip) {
-      this.status = "LoggedIn";
-      this.clearScreen();
       this.setMainMenu();
     } else {
       let alert = document.createElement("p");

@@ -2,7 +2,7 @@ class Cliente {
   constructor(name, lastname, balance, nip) {
     this.name = name;
     this.lastname = lastname;
-    this.balance = this.validateBalance(balance);
+    this.balance = balance;
     this.nip = nip;
   }
 
@@ -28,6 +28,10 @@ class Cliente {
 
   getNombre() {
     return this.name;
+  }
+
+  getBalance() {
+    return this.balance;
   }
 }
 
