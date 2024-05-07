@@ -37,7 +37,7 @@ class Transaction {
     this.user = this.selectUser(users);
     this.status = "Start";
     this.inputText = "";
-
+    console.log(this.user);
     this.activateKeyboard();
     this.setInitialScreen();
   }
@@ -45,19 +45,19 @@ class Transaction {
   selectUser(usuarios) {
     let nombresUsuario = "";
     usuarios.forEach((usuario) => {
-      console.log(usuario.getNombre());
-
       nombresUsuario += " " + usuario.getNombre();
     });
+    let user = null;
     // TODO: Remove comment before final publish
     //let userName = prompt('Ingresa tu usuario, los registrados son' + nombresUsuario);
     let userName = "juan";
     usuarios.forEach((usuario) => {
       if (usuario.getNombre().toLowerCase() == userName.toLowerCase()) {
-        console.log("success");
-        return usuario;
+        console.log(usuario);
+        user = usuario;
       }
     });
+    return user;
   }
 
   activateKeyboard() {
@@ -89,47 +89,47 @@ class Transaction {
     } else if (pressedKey == 10) {
       // For cancel button
       this.pushRedButton(image);
-      this.inputText = "";
-      document.getElementById("password").value = this.inputText;
+      if (this.status == "Pin") {
+        this.inputText = "";
+        document.getElementById("password").value = this.inputText;
+      }
     } else if (pressedKey == 11) {
       // For correct button
       this.pushYellowButton(image);
-      this.inputText = this.inputText.slice(0, -1);
-      document.getElementById("password").value = this.inputText;
+      if (this.status == "Pin") {
+        this.inputText = this.inputText.slice(0, -1);
+        document.getElementById("password").value = this.inputText;
+      }
     } else if (pressedKey == 12) {
       // For accept button
       this.pushGreenButton(image);
-      this.inputText = "magicDevelop";
-      document.getElementById("password").value = this.inputText;
+      if (this.status == "Pin") {
+        this.validatePin();
+      }
     }
   }
 
   pushWhiteButton(image) {
     image.setAttribute("src", "images/whiteButtonPressed.svg");
     setTimeout(() => {
-      console.log("red");
       image.setAttribute("src", "images/whiteButton.svg");
     }, 300);
   }
-
   pushRedButton(image) {
     image.setAttribute("src", "images/redButtonPressed.svg");
     setTimeout(() => {
-      console.log("red");
       image.setAttribute("src", "images/redButton.svg");
     }, 300);
   }
   pushYellowButton(image) {
     image.setAttribute("src", "images/yellowButtonPressed.svg");
     setTimeout(() => {
-      console.log("red");
       image.setAttribute("src", "images/yellowButton.svg");
     }, 300);
   }
   pushGreenButton(image) {
     image.setAttribute("src", "images/greenButtonPressed.svg");
     setTimeout(() => {
-      console.log("red");
       image.setAttribute("src", "images/greenButton.svg");
     }, 300);
   }
@@ -171,6 +171,23 @@ class Transaction {
 
       this.status = "Pin";
     } else {
+    }
+  }
+
+  validatePin() {
+
+    if (this.inputText == this.user.nip) {
+        console.log("Correct NIP");
+    }
+    else {
+        let alert = document.createElement("p");
+        alert.innerHTML = 'NIP incorrecto, vuelve a intentar';
+        document.getElementById("password").value = '';
+        this.inputText = '';
+        this.mainScreen.appendChild(alert);
+        setTimeout(() => {
+            this.mainScreen.removeChild(alert);
+          }, 2000);
     }
   }
 }
