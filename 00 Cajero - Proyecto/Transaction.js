@@ -96,10 +96,32 @@ class Transaction {
 
   menuClickLeft(pressedButton, button) {
     this.pushLeftButton(button);
+    if (this.status == 'LoggedIn') {
+        if (pressedButton == 0){
+            this.checkBalance();
+        } else if (pressedButton == 1){
+            this.withdrawal();
+        } else if (pressedButton == 2){
+            this.deposit();
+        }
+    }
   }
 
   menuClickRight(pressedButton, button) {
     this.pushRightButton(button);
+    if (this.status == 'LoggedIn') {
+        if (pressedButton == 0){
+            this.transfer();
+        } else if (pressedButton == 1){
+            this.changePIN();
+        } else if (pressedButton == 2){
+            this.exit();
+        }
+    }
+  }
+
+  checkBalance() {
+    this.clearScreen();
   }
 
   pushLeftButton(image) {
@@ -107,7 +129,6 @@ class Transaction {
     setTimeout(() => {
       image.setAttribute("src", "images/LeftButton.svg");
     }, 300);
-
   }
 
   pushRightButton(image) {
@@ -115,7 +136,6 @@ class Transaction {
     setTimeout(() => {
       image.setAttribute("src", "images/RightButton.svg");
     }, 300);
-
   }
 
   pushWhiteButton(image) {
@@ -197,43 +217,37 @@ class Transaction {
     this.mainScreen.appendChild(instruction);
 
     let optionsLeft = [
-        'Consultar Saldo',
-        'Retirar Efectivo',
-        'Depositar Efectivo'
+      "Consultar Saldo",
+      "Retirar Efectivo",
+      "Depositar Efectivo",
     ];
 
-    let optionsRight = [
-        'Transferir Fondos',
-        'Cambiar PIN',
-        'Salir'
-    ];
-    
+    let optionsRight = ["Transferir Fondos", "Cambiar PIN", "Salir"];
+
     for (let i = 0; i < optionsLeft.length; i++) {
-        let message = document.createElement("p")
-        message.innerHTML = optionsLeft[i];
-        message.style.gridColumn = '1';
-        message.style.gridRow = i+2;
-        message.style.textAlign = 'left';
-        message.style.fontWeight = 'bold';
-        this.mainScreen.appendChild(message);
+      let message = document.createElement("p");
+      message.innerHTML = optionsLeft[i];
+      message.style.gridColumn = "1";
+      message.style.gridRow = i + 2;
+      message.style.textAlign = "left";
+      message.style.fontWeight = "bold";
+      this.mainScreen.appendChild(message);
     }
 
     for (let i = 0; i < optionsRight.length; i++) {
-        let message = document.createElement("p")
-        message.innerHTML = optionsRight[i];
-        message.style.gridColumn = '3';
-        message.style.gridRow = i+2;
-        message.style.textAlign = 'right';
-        message.style.fontWeight = 'bold';
-        this.mainScreen.appendChild(message);
+      let message = document.createElement("p");
+      message.innerHTML = optionsRight[i];
+      message.style.gridColumn = "3";
+      message.style.gridRow = i + 2;
+      message.style.textAlign = "right";
+      message.style.fontWeight = "bold";
+      this.mainScreen.appendChild(message);
     }
-    
-
-
   }
 
   validatePin() {
     if (this.inputText == this.user.nip) {
+      this.status = "LoggedIn";
       this.clearScreen();
       this.setMainMenu();
     } else {
