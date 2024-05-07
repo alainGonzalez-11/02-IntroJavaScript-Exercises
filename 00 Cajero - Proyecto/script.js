@@ -31,73 +31,131 @@ class Cliente {
   }
 }
 
-function newTransaction() {
-  let mainScreen = document.getElementById("Screen");
+class Transaction {
+  constructor(users) {
+    this.mainScreen = document.getElementById("Screen");
+    this.user = this.selectUser(users);
+    this.status = "Start";
+    this.inputText = "";
 
-  let user = selectUser();
-  setInitialScreen(mainScreen);
-}
+    this.activateKeyboard();
+    this.setInitialScreen();
+  }
 
-function selectUser() {
-  let nombresUsuario = "";
-  usuarios.forEach((usuario) => {
-    console.log(usuario.getNombre());
+  selectUser(usuarios) {
+    let nombresUsuario = "";
+    usuarios.forEach((usuario) => {
+      console.log(usuario.getNombre());
 
-    nombresUsuario += " " + usuario.getNombre();
-  });
-  //let userName = prompt('Ingresa tu usuario, los registrados son' + nombresUsuario);
-  userName = "juan";
-  usuarios.forEach((usuario) => {
-    if (usuario.getNombre().toLowerCase() == userName.toLowerCase()) {
-      console.log("success");
-      return usuario;
-    }
-  });
-}
+      nombresUsuario += " " + usuario.getNombre();
+    });
+    // TODO: Remove comment before final publish
+    //let userName = prompt('Ingresa tu usuario, los registrados son' + nombresUsuario);
+    let userName = "juan";
+    usuarios.forEach((usuario) => {
+      if (usuario.getNombre().toLowerCase() == userName.toLowerCase()) {
+        console.log("success");
+        return usuario;
+      }
+    });
+  }
 
-function setInitialScreen(screen) {
-  activateKeyboard();
-  let message = document.createElement("p");
-  message.innerHTML = "Ingresa tu tarjeta para iniciar";
-  screen.appendChild(message);
-  let card = document.getElementById("CardSlot");
-  card.setAttribute("src", "images/cardSlotOn.svg");
-  card.setAttribute("class", "CardSlotOn");
-  card.addEventListener("click", insertCard);
-  
-}
-
-function activateKeyboard() {
-    let buttons = document.getElementsByClassName('keyButton');
+  activateKeyboard() {
+    let buttons = document.getElementsByClassName("keyButton");
     for (let i = 0; i < buttons.length; i++) {
-        console.log(buttons[i]);
-        buttons[i].addEventListener("click", keyClick);
+      buttons[i].addEventListener(
+        "click",
+        this.keyClick.bind(this, i, buttons[i])
+      );
     }
-}
+    if (this.status == "Pin") {
+    }
+  }
 
-function keyClick() {
-    console.log("pressed");
-}
+  keyClick(pressedKey, key) {
+    let image = key.children[0];
 
-function insertCard() {
-  if (transactionStatus == "Start") {
+    if (pressedKey < 9 && this.inputText.length < 4) {
+      image.setAttribute("src", "images/whiteButtonPressed.svg");
+      this.inputText += pressedKey + 1;
+      document.getElementById("password").value = this.inputText;
+      setTimeout(() => {
+        console.log("red");
+        image.setAttribute("src", "images/whiteButton.svg");
+      }, 300);
+    } else if (pressedKey == 9 && this.inputText.length < 4) {
+      image.setAttribute("src", "images/whiteButtonPressed.svg");
+      this.inputText += 0;
+      document.getElementById("password").value = this.inputText;
+      setTimeout(() => {
+        console.log("red");
+        image.setAttribute("src", "images/whiteButton.svg");
+      }, 300);
+    } else if (pressedKey == 10) {
+      image.setAttribute("src", "images/redButtonPressed.svg");
+      this.inputText = "";
+      document.getElementById("password").value = this.inputText;
+      setTimeout(() => {
+        console.log("red");
+        image.setAttribute("src", "images/redButton.svg");
+      }, 300);
+    } else if (pressedKey == 11) {
+        image.setAttribute("src", "images/yellowButtonPressed.svg");
+        this.inputText = this.inputText.slice(0, -1);
+        document.getElementById("password").value = this.inputText;
+        setTimeout(() => {
+          console.log("red");
+          image.setAttribute("src", "images/yellowButton.svg");
+        }, 300);
+      }else if (pressedKey == 12) {
+        image.setAttribute("src", "images/greenButtonPressed.svg");
+        this.inputText = "magicDevelop";
+        document.getElementById("password").value = this.inputText;
+        setTimeout(() => {
+          console.log("red");
+          image.setAttribute("src", "images/greenButton.svg");
+        }, 300);
+      }
+  }
+
+  setInitialScreen() {
+    let message = document.createElement("p");
+    message.innerHTML = "Ingresa tu tarjeta para iniciar";
+    this.mainScreen.appendChild(message);
     let card = document.getElementById("CardSlot");
-    card.setAttribute("src", "images/cardSlotOff.svg");
-    card.setAttribute("class", "CardSlotOff");
-    let mainScreen = document.getElementById("Screen");
-    while (mainScreen.firstChild) {
-      mainScreen.removeChild(mainScreen.firstChild);
+    card.setAttribute("src", "images/cardSlotOn.svg");
+    card.setAttribute("class", "CardSlotOn");
+    card.addEventListener("click", this.insertCard.bind(this));
+  }
+
+  insertCard() {
+    if (this.status == "Start") {
+      let card = document.getElementById("CardSlot");
+      card.setAttribute("src", "images/cardSlotOff.svg");
+      card.setAttribute("class", "CardSlotOff");
+      while (this.mainScreen.firstChild) {
+        this.mainScreen.removeChild(this.mainScreen.firstChild);
+      }
+      this.mainScreen.setAttribute("class", "ScreenMenu");
+      let instruction = document.createElement("p");
+      instruction.innerHTML = "Ingresa tu NIP";
+      instruction.style.fontSize = "2em";
+      instruction.style.fontWeight = "bold";
+      instruction.style.gridColumn = "2";
+      instruction.style.gridRow = "2";
+      this.mainScreen.appendChild(instruction);
+
+      let pinField = document.createElement("input");
+      pinField.type = "password";
+      pinField.id = "password";
+      pinField.style.fontWeight = "bold";
+      pinField.style.gridColumn = "2";
+      pinField.style.gridRow = "3";
+      this.mainScreen.appendChild(pinField);
+
+      this.status = "Pin";
+    } else {
     }
-    mainScreen.setAttribute("class", "ScreenMenu");
-    let instruction = document.createElement("p");
-    instruction.innerHTML = "Ingresa tu NIP";
-    instruction.style.fontSize = "2em";
-    instruction.style.fontWeight = "bold";
-    instruction.style.gridColumn = "2";
-    instruction.style.gridRow = "2";
-    mainScreen.appendChild(instruction);
-    transactionStatus = "Pin";
-  } else {
   }
 }
 
@@ -105,5 +163,5 @@ let usuarios = [
   new Cliente("Juan", "Rulfo", 600, 1234),
   new Cliente("Pedro", "Paramo", 150, 5678),
 ];
-transactionStatus = "Start";
-newTransaction();
+
+transaction = new Transaction(usuarios);
