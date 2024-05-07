@@ -47,15 +47,25 @@ body {
   border: #818181 solid 2px;
 }
 
-.botonCajero {
+.botonCajeroLeft {
   margin: 5%;
   margin-top: 15%;
   width: 80%;
 }
 
-.botonCajero:hover {
+.botonCajeroLeft:hover {
   cursor: pointer;
 }
+
+.botonCajeroRight {
+    margin: 5%;
+    margin-top: 15%;
+    width: 80%;
+  }
+  
+  .botonCajeroRight:hover {
+    cursor: pointer;
+  }
 
 #Screen {
   background: linear-gradient(
@@ -63,26 +73,27 @@ body {
     #f0f0f0,
     #a4a4a4
   ); /* Red on top, blue on bottom */
-  border: #818181 solid 2px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-#mainLogo {
-  width: 25%;
-  margin-bottom: 3em;
-}
-#mainMap {
-  width: 90%;
-}
-
-.ScreenMenu {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 2fr 1fr 1fr 1fr 1fr;
   gap: 1em;
+  border: #818181 solid 2px;
+  justify-items: center;
+  align-items: center;
 }
+#mainLogo {
+  width: 80%;
+  margin-bottom: 3em;
+  grid-column: 2/3;
+  grid-row: 1/2;
+}
+#mainMap {
+  width: 90%;
+  grid-column: 1/4;
+  grid-row: 2/5;
+}
+
+
 input {
   font-size: x-large;
   text-align: center;
