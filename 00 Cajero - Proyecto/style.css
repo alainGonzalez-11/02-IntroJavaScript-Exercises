@@ -82,8 +82,7 @@ body {
   align-items: center;
 }
 #mainLogo {
-  width: 80%;
-  margin-bottom: 3em;
+  width: 70%;
   grid-column: 2/3;
   grid-row: 1/2;
 }
