@@ -44,7 +44,6 @@ class Transaction {
   }
   keyClick(pressedKey, key) {
     let image = key.children[0];
-    console.log(this.status);
 
     if (this.status == "Pin") {
       if (pressedKey < 9 && this.inputText.length < 4) {
@@ -98,29 +97,128 @@ class Transaction {
         this.pushGreenButton(image);
         this.withdrawCash();
       }
+    } else if (this.status == "DepositMenu") {
+      if (pressedKey < 9) {
+        // For digits 1 - 9
+        this.pushWhiteButton(image);
+        this.inputText += pressedKey + 1;
+        document.getElementById("depositAmmount").value = this.inputText;
+      } else if (pressedKey == 9) {
+        // For digit 0
+        this.pushWhiteButton(image);
+        this.inputText += 0;
+        document.getElementById("depositAmmount").value = this.inputText;
+      } else if (pressedKey == 10) {
+        // For cancel button
+        this.pushRedButton(image);
+        this.inputText = "";
+        document.getElementById("depositAmmount").value = this.inputText;
+      } else if (pressedKey == 11) {
+        // For correct button
+        this.pushYellowButton(image);
+        this.inputText = this.inputText.slice(0, -1);
+        document.getElementById("depositAmmount").value = this.inputText;
+      } else if (pressedKey == 12) {
+        // For accept button
+        this.pushGreenButton(image);
+        this.depositCash();
+      }
+    } else if (this.status == "transferAccount") {
+      if (pressedKey < 9) {
+        // For digits 1 - 9
+        this.pushWhiteButton(image);
+        this.inputText += pressedKey + 1;
+        document.getElementById("transferAccount").value = this.inputText;
+      } else if (pressedKey == 9) {
+        // For digit 0
+        this.pushWhiteButton(image);
+        this.inputText += 0;
+        document.getElementById("transferAccount").value = this.inputText;
+      } else if (pressedKey == 10) {
+        // For cancel button
+        this.pushRedButton(image);
+        this.inputText = "";
+        document.getElementById("transferAccount").value = this.inputText;
+      } else if (pressedKey == 11) {
+        // For correct button
+        this.pushYellowButton(image);
+        this.inputText = this.inputText.slice(0, -1);
+        document.getElementById("transferAccount").value = this.inputText;
+      } else if (pressedKey == 12) {
+        // For accept button
+        this.pushGreenButton(image);
+        this.transferMoney();
+      }
+    } else if (this.status == "setTransferAmmount") {
+      if (pressedKey < 9) {
+        // For digits 1 - 9
+        this.pushWhiteButton(image);
+        this.inputText += pressedKey + 1;
+        document.getElementById("transferAmmount").value = this.inputText;
+      } else if (pressedKey == 9) {
+        // For digit 0
+        this.pushWhiteButton(image);
+        this.inputText += 0;
+        document.getElementById("transferAmmount").value = this.inputText;
+      } else if (pressedKey == 10) {
+        // For cancel button
+        this.pushRedButton(image);
+        this.inputText = "";
+        document.getElementById("transferAmmount").value = this.inputText;
+      } else if (pressedKey == 11) {
+        // For correct button
+        this.pushYellowButton(image);
+        this.inputText = this.inputText.slice(0, -1);
+        document.getElementById("transferAmmount").value = this.inputText;
+      } else if (pressedKey == 12) {
+        // For accept button
+        this.pushGreenButton(image);
+        this.makeTransfer();
+      }
     }
   }
 
-  withdrawCash() {
-    this.status = "Withdrawing";
-    let canWithdraw = this.user.withdrawCash(parseInt(this.inputText));
-    if (canWithdraw.isValid) {
+  makeTransfer() {
+    this.status = "Transfering";
+
+    let canTransfer = this.user.withdrawCash(parseInt(this.inputText));
+    if (canTransfer.isValid) {
       this.clearScreen();
       let instruction = document.createElement("p");
-      instruction.innerHTML = "Transacción exitosa.\nToma tu efectivo";
+      instruction.innerHTML = `Transferiste \n$ ${this.inputText} MXN`;
       instruction.style.fontSize = "2em";
       instruction.style.fontWeight = "bold";
       instruction.style.gridColumn = "2";
       instruction.style.gridRow = "2/4";
       instruction.style.textAlign = "center";
       this.mainScreen.appendChild(instruction);
+      let remaining = document.createElement("p");
+      remaining.innerHTML = `Quedan $ ${this.user.balance} MXN en tu cuenta`;
+      remaining.style.fontSize = "1.5em";
+      remaining.style.fontWeight = "bold";
+      remaining.style.gridColumn = "2";
+      remaining.style.gridRow = "4/5";
+      remaining.style.textAlign = "center";
+      this.mainScreen.appendChild(remaining);
 
-      let cash = document.getElementById("cashWithdrawal");
-      cash.setAttribute("src", "images/MoneyOn.svg");
-      cash.style.cursor = "pointer";
-      cash.addEventListener("click", this.cashSlot.bind(this));
+      let goBack = document.createElement("p");
+      goBack.innerHTML = `Realizar otra transacción`;
+      goBack.style.fontSize = "1em";
+      goBack.style.fontWeight = "bold";
+      goBack.style.gridColumn = "3";
+      goBack.style.gridRow = "4/5";
+      goBack.style.textAlign = "right";
+      this.mainScreen.appendChild(goBack);
+
+      let finish = document.createElement("p");
+      finish.innerHTML = `Finalizar`;
+      finish.style.fontSize = "1em";
+      finish.style.fontWeight = "bold";
+      finish.style.gridColumn = "3";
+      finish.style.gridRow = "5/6";
+      finish.style.textAlign = "right";
+      this.mainScreen.appendChild(finish);
     } else {
-      
       this.clearScreen();
       let instruction = document.createElement("p");
       instruction.innerHTML = `Saldo insuficiente`;
@@ -156,7 +254,144 @@ class Transaction {
       finish.style.gridRow = "5/6";
       finish.style.textAlign = "right";
       this.mainScreen.appendChild(finish);
+    }
+  }
 
+  transferMoney() {
+    this.status = 'setTransferAmmount';
+    this.clearScreen();
+    let instruction = document.createElement("p");
+    instruction.innerHTML = "Ingresa el monto a transferir";
+    instruction.style.fontSize = "2em";
+    instruction.style.fontWeight = "bold";
+    instruction.style.gridColumn = "2";
+    instruction.style.gridRow = "2";
+    instruction.style.textAlign = "center";
+    this.mainScreen.appendChild(instruction);
+
+    let transferAmmount = document.createElement("input");
+    transferAmmount.type = "number";
+    transferAmmount.id = "transferAmmount";
+    transferAmmount.style.fontWeight = "bold";
+    transferAmmount.style.gridColumn = "2";
+    transferAmmount.style.gridRow = "3";
+    this.mainScreen.appendChild(transferAmmount);
+
+    this.inputText = "";
+  }
+
+  depositCash() {
+    this.status = "Depositing";
+    let canDeposit = this.user.depositCash(parseInt(this.inputText));
+    if (canDeposit.isValid) {
+      this.clearScreen();
+      let instruction = document.createElement("p");
+      instruction.innerHTML = "Infresa el efectivo";
+      instruction.style.fontSize = "2em";
+      instruction.style.fontWeight = "bold";
+      instruction.style.gridColumn = "2";
+      instruction.style.gridRow = "2/4";
+      instruction.style.textAlign = "center";
+      this.mainScreen.appendChild(instruction);
+
+      let cash = document.getElementById("cashWithdrawal");
+      cash.setAttribute("src", "images/MoneyOn.svg");
+      cash.style.cursor = "pointer";
+      cash.addEventListener("click", this.cashSlot.bind(this));
+    } else {
+      this.clearScreen();
+      let instruction = document.createElement("p");
+      instruction.innerHTML = `Depósito inválido`;
+      instruction.style.fontSize = "2em";
+      instruction.style.fontWeight = "bold";
+      instruction.style.gridColumn = "2";
+      instruction.style.gridRow = "2/4";
+      instruction.style.textAlign = "center";
+      this.mainScreen.appendChild(instruction);
+      let remaining = document.createElement("p");
+      remaining.innerHTML = `Recuerda que no puedes sobrepasar de $990 MXN en tu cuenta`;
+      remaining.style.fontSize = "1.5em";
+      remaining.style.fontWeight = "bold";
+      remaining.style.gridColumn = "2";
+      remaining.style.gridRow = "4/5";
+      remaining.style.textAlign = "center";
+      this.mainScreen.appendChild(remaining);
+
+      let goBack = document.createElement("p");
+      goBack.innerHTML = `Realizar otra transacción`;
+      goBack.style.fontSize = "1em";
+      goBack.style.fontWeight = "bold";
+      goBack.style.gridColumn = "3";
+      goBack.style.gridRow = "4/5";
+      goBack.style.textAlign = "right";
+      this.mainScreen.appendChild(goBack);
+
+      let finish = document.createElement("p");
+      finish.innerHTML = `Finalizar`;
+      finish.style.fontSize = "1em";
+      finish.style.fontWeight = "bold";
+      finish.style.gridColumn = "3";
+      finish.style.gridRow = "5/6";
+      finish.style.textAlign = "right";
+      this.mainScreen.appendChild(finish);
+    }
+  }
+
+  withdrawCash() {
+    this.status = "Withdrawing";
+
+    let canWithdraw = this.user.withdrawCash(parseInt(this.inputText));
+    if (canWithdraw.isValid) {
+      this.clearScreen();
+      let instruction = document.createElement("p");
+      instruction.innerHTML = "Transacción exitosa.\nToma tu efectivo";
+      instruction.style.fontSize = "2em";
+      instruction.style.fontWeight = "bold";
+      instruction.style.gridColumn = "2";
+      instruction.style.gridRow = "2/4";
+      instruction.style.textAlign = "center";
+      this.mainScreen.appendChild(instruction);
+
+      let cash = document.getElementById("cashWithdrawal");
+      cash.setAttribute("src", "images/MoneyOn.svg");
+      cash.style.cursor = "pointer";
+      cash.addEventListener("click", this.cashSlot.bind(this));
+    } else {
+      this.clearScreen();
+      let instruction = document.createElement("p");
+      instruction.innerHTML = `Saldo insuficiente`;
+      instruction.style.fontSize = "2em";
+      instruction.style.fontWeight = "bold";
+      instruction.style.gridColumn = "2";
+      instruction.style.gridRow = "2/4";
+      instruction.style.textAlign = "center";
+      this.mainScreen.appendChild(instruction);
+      let remaining = document.createElement("p");
+      remaining.innerHTML = `Recuerda que debes dejar al menos $10 MXN en tu cuenta`;
+      remaining.style.fontSize = "1.5em";
+      remaining.style.fontWeight = "bold";
+      remaining.style.gridColumn = "2";
+      remaining.style.gridRow = "4/5";
+      remaining.style.textAlign = "center";
+      this.mainScreen.appendChild(remaining);
+
+      let goBack = document.createElement("p");
+      goBack.innerHTML = `Realizar otra transacción`;
+      goBack.style.fontSize = "1em";
+      goBack.style.fontWeight = "bold";
+      goBack.style.gridColumn = "3";
+      goBack.style.gridRow = "4/5";
+      goBack.style.textAlign = "right";
+      this.mainScreen.appendChild(goBack);
+
+      let finish = document.createElement("p");
+      finish.innerHTML = `Finalizar`;
+      finish.style.fontSize = "1em";
+      finish.style.fontWeight = "bold";
+      finish.style.gridColumn = "3";
+      finish.style.gridRow = "5/6";
+      finish.style.textAlign = "right";
+      this.mainScreen.appendChild(finish);
     }
   }
 
@@ -201,7 +436,46 @@ class Transaction {
       let cash = document.getElementById("cashWithdrawal");
       cash.setAttribute("src", "images/MoneyOff.svg");
       cash.style.cursor = "initial";
+    } else if (this.status == "Depositing") {
+      this.clearScreen();
+      let instruction = document.createElement("p");
+      instruction.innerHTML = `Depositaste \n$ ${this.inputText} MXN`;
+      instruction.style.fontSize = "2em";
+      instruction.style.fontWeight = "bold";
+      instruction.style.gridColumn = "2";
+      instruction.style.gridRow = "2/4";
+      instruction.style.textAlign = "center";
+      this.mainScreen.appendChild(instruction);
+      let remaining = document.createElement("p");
+      remaining.innerHTML = `Tienes $ ${this.user.balance} MXN en tu cuenta`;
+      remaining.style.fontSize = "1.5em";
+      remaining.style.fontWeight = "bold";
+      remaining.style.gridColumn = "2";
+      remaining.style.gridRow = "4/5";
+      remaining.style.textAlign = "center";
+      this.mainScreen.appendChild(remaining);
 
+      let goBack = document.createElement("p");
+      goBack.innerHTML = `Realizar otra transacción`;
+      goBack.style.fontSize = "1em";
+      goBack.style.fontWeight = "bold";
+      goBack.style.gridColumn = "3";
+      goBack.style.gridRow = "4/5";
+      goBack.style.textAlign = "right";
+      this.mainScreen.appendChild(goBack);
+
+      let finish = document.createElement("p");
+      finish.innerHTML = `Finalizar`;
+      finish.style.fontSize = "1em";
+      finish.style.fontWeight = "bold";
+      finish.style.gridColumn = "3";
+      finish.style.gridRow = "5/6";
+      finish.style.textAlign = "right";
+      this.mainScreen.appendChild(finish);
+
+      let cash = document.getElementById("cashWithdrawal");
+      cash.setAttribute("src", "images/MoneyOff.svg");
+      cash.style.cursor = "initial";
     }
   }
 
@@ -247,13 +521,13 @@ class Transaction {
       } else if (pressedButton == 1) {
         this.changePIN();
       } else if (pressedButton == 2) {
-        this.exit();
+        this.finish();
       }
     } else if (this.status == "CheckBalance") {
       if (pressedButton == 3) {
         this.finish();
       }
-    }else if (this.status == "Withdrawing") {
+    } else if (this.status == "Withdrawing" || this.status == "Depositing" || this.status == 'Transfering') {
       if (pressedButton == 2) {
         this.setMainMenu();
       } else if (pressedButton == 3) {
@@ -262,8 +536,41 @@ class Transaction {
     }
   }
 
+  transfer() {
+    this.status = "transferAccount";
+    this.clearScreen();
+    let instruction = document.createElement("p");
+    instruction.innerHTML = "Ingresa cuenta a la que transferir";
+    instruction.style.fontSize = "2em";
+    instruction.style.fontWeight = "bold";
+    instruction.style.gridColumn = "2";
+    instruction.style.gridRow = "2";
+    instruction.style.textAlign = "center";
+    this.mainScreen.appendChild(instruction);
+
+    let transferAccount = document.createElement("input");
+    transferAccount.type = "number";
+    transferAccount.id = "transferAccount";
+    transferAccount.style.fontWeight = "bold";
+    transferAccount.style.gridColumn = "2";
+    transferAccount.style.gridRow = "3";
+    this.mainScreen.appendChild(transferAccount);
+
+    this.inputText = "";
+
+  }
+
+  changePIN() {
+    
+
+
+
+
+
+  }
+
   finish() {
-    this.status = 'Finishing';
+    this.status = "Finishing";
     let card = document.getElementById("CardSlot");
     card.setAttribute("src", "images/cardSlotOn.svg");
     card.setAttribute("class", "CardSlotOn");
@@ -278,7 +585,6 @@ class Transaction {
     instruction.style.textAlign = "center";
     this.mainScreen.appendChild(instruction);
 
-    
     let message = document.createElement("p");
     message.innerHTML = `No olvides tu tarjeta`;
     message.style.fontSize = "1.5em";
@@ -319,8 +625,6 @@ class Transaction {
   }
 
   withdrawal() {
-    // ----------------------------------------------------------------
-
     this.status = "WithdrawalMenu";
     this.clearScreen();
     let instruction = document.createElement("p");
@@ -339,6 +643,29 @@ class Transaction {
     withdrawalAmmount.style.gridColumn = "2";
     withdrawalAmmount.style.gridRow = "3";
     this.mainScreen.appendChild(withdrawalAmmount);
+
+    this.inputText = "";
+  }
+
+  deposit() {
+    this.status = "DepositMenu";
+    this.clearScreen();
+    let instruction = document.createElement("p");
+    instruction.innerHTML = "Ingresa el monto a depositar";
+    instruction.style.fontSize = "2em";
+    instruction.style.fontWeight = "bold";
+    instruction.style.gridColumn = "2";
+    instruction.style.gridRow = "2";
+    instruction.style.textAlign = "center";
+    this.mainScreen.appendChild(instruction);
+
+    let depositAmmount = document.createElement("input");
+    depositAmmount.type = "number";
+    depositAmmount.id = "depositAmmount";
+    depositAmmount.style.fontWeight = "bold";
+    depositAmmount.style.gridColumn = "2";
+    depositAmmount.style.gridRow = "3";
+    this.mainScreen.appendChild(depositAmmount);
 
     this.inputText = "";
   }
@@ -430,14 +757,13 @@ class Transaction {
       this.mainScreen.appendChild(pinField);
 
       this.status = "Pin";
-    } else if (this.status == 'Finishing'){
+    } else if (this.status == "Finishing") {
       let card = document.getElementById("CardSlot");
       card.setAttribute("src", "images/cardSlotOff.svg");
       card.setAttribute("class", "CardSlotOff");
       this.clearScreen();
       this.setInitialScreen();
-      this.inputText = '';
-
+      this.inputText = "";
     }
   }
   clearScreen() {

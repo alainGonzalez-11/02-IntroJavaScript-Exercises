@@ -32,6 +32,21 @@ class Cliente {
     }
   }
 
+  depositCash(amount) {
+    let newBalance = this.balance + amount;
+    console.log(newBalance);
+    if (newBalance >= 10 && newBalance <= 900) {
+      this.balance = newBalance;
+      return { isValid: true, newBalance: this.balance };
+    } else if (newBalance < 10) {
+      console.log("Error: Balance cannot be less than 10");
+      return { isValid: false, newBalance: this.balance };
+    } else if (newBalance > 900) {
+      console.log("Error: Balance cannot be more than 900");
+      return { isValid: false, newBalance: this.balance };
+    }
+  }
+
   getNombre() {
     return this.name;
   }
