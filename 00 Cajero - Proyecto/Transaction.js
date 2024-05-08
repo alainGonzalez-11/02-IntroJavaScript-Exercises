@@ -22,9 +22,7 @@ class Transaction {
       nombresUsuario += " " + usuario.getNombre();
     });
     let user = null;
-    // TODO: Remove comment before final publish
-    //let userName = prompt('Ingresa tu usuario, los registrados son' + nombresUsuario);
-    let userName = "juan";
+    let userName = prompt('Ingresa tu usuario, los registrados son' + nombresUsuario);
     usuarios.forEach((usuario) => {
       if (usuario.getNombre().toLowerCase() == userName.toLowerCase()) {
         user = usuario;
@@ -175,7 +173,68 @@ class Transaction {
         this.pushGreenButton(image);
         this.makeTransfer();
       }
+    } else if (this.status == "NewPin") {
+      if (pressedKey < 9 && this.inputText.length < 4) {
+        // For digits 1 - 9
+        this.pushWhiteButton(image);
+        this.inputText += pressedKey + 1;
+        document.getElementById("password").value = this.inputText;
+      } else if (pressedKey == 9 && this.inputText.length < 4) {
+        // For digit 0
+        this.pushWhiteButton(image);
+        this.inputText += 0;
+        document.getElementById("password").value = this.inputText;
+      } else if (pressedKey == 10) {
+        // For cancel button
+        this.pushRedButton(image);
+        this.inputText = "";
+        document.getElementById("password").value = this.inputText;
+      } else if (pressedKey == 11) {
+        // For correct button
+        this.pushYellowButton(image);
+        this.inputText = this.inputText.slice(0, -1);
+        document.getElementById("password").value = this.inputText;
+      } else if (pressedKey == 12) {
+        // For accept button
+        this.pushGreenButton(image);
+        this.savePin();
+      }
     }
+  }
+
+  savePin() {
+    this.status = 'changingPin';
+    this.user.nip = this.inputText;
+    
+    this.clearScreen();
+    let instruction = document.createElement("p");
+    instruction.innerHTML = `Cambio de NIP exitoso`;
+    instruction.style.fontSize = "2em";
+    instruction.style.fontWeight = "bold";
+    instruction.style.gridColumn = "2";
+    instruction.style.gridRow = "2/4";
+    instruction.style.textAlign = "center";
+    this.mainScreen.appendChild(instruction);
+
+    let goBack = document.createElement("p");
+    goBack.innerHTML = `Realizar otra transacción`;
+    goBack.style.fontSize = "1em";
+    goBack.style.fontWeight = "bold";
+    goBack.style.gridColumn = "3";
+    goBack.style.gridRow = "4/5";
+    goBack.style.textAlign = "right";
+    this.mainScreen.appendChild(goBack);
+
+    let finish = document.createElement("p");
+    finish.innerHTML = `Finalizar`;
+    finish.style.fontSize = "1em";
+    finish.style.fontWeight = "bold";
+    finish.style.gridColumn = "3";
+    finish.style.gridRow = "5/6";
+    finish.style.textAlign = "right";
+    this.mainScreen.appendChild(finish);
+
+
   }
 
   makeTransfer() {
@@ -258,7 +317,7 @@ class Transaction {
   }
 
   transferMoney() {
-    this.status = 'setTransferAmmount';
+    this.status = "setTransferAmmount";
     this.clearScreen();
     let instruction = document.createElement("p");
     instruction.innerHTML = "Ingresa el monto a transferir";
@@ -527,7 +586,12 @@ class Transaction {
       if (pressedButton == 3) {
         this.finish();
       }
-    } else if (this.status == "Withdrawing" || this.status == "Depositing" || this.status == 'Transfering') {
+    } else if (
+      this.status == "Withdrawing" ||
+      this.status == "Depositing" ||
+      this.status == "Transfering" ||
+      this.status == "changingPin"
+    ) {
       if (pressedButton == 2) {
         this.setMainMenu();
       } else if (pressedButton == 3) {
@@ -557,16 +621,28 @@ class Transaction {
     this.mainScreen.appendChild(transferAccount);
 
     this.inputText = "";
-
   }
 
   changePIN() {
-    
+    this.inputText = '';
+    this.clearScreen();
+    let instruction = document.createElement("p");
+    instruction.innerHTML = "Ingresa tu nuevo NIP";
+    instruction.style.fontSize = "2em";
+    instruction.style.fontWeight = "bold";
+    instruction.style.gridColumn = "2";
+    instruction.style.gridRow = "2";
+    this.mainScreen.appendChild(instruction);
 
+    let pinField = document.createElement("input");
+    pinField.type = "password";
+    pinField.id = "password";
+    pinField.style.fontWeight = "bold";
+    pinField.style.gridColumn = "2";
+    pinField.style.gridRow = "3";
+    this.mainScreen.appendChild(pinField);
 
-
-
-
+    this.status = "NewPin";
   }
 
   finish() {

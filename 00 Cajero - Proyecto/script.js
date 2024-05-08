@@ -59,6 +59,7 @@ class Cliente {
 let usuarios = [
   new Cliente("Juan", "Rulfo", 600, 1234),
   new Cliente("Pedro", "Paramo", 150, 5678),
+  new Cliente("Luis", "Mar", 150, 2000)
 ];
 
 transaction = new Transaction(usuarios);
