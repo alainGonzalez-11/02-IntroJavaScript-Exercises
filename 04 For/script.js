@@ -86,4 +86,11 @@ function pokemon() {
 
 function checkNumbers() {
   // TODO: Implement function
+  let numbers = [4,'dos',8,'tres',5,9,1,'cero'];
+  numbers.forEach(numero => {
+    if (!isNaN(numero)){
+      console.log(numero);
+    }
+  });
+
 }
